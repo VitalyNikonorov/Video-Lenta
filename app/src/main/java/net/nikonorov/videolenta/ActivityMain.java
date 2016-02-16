@@ -1,12 +1,9 @@
 package net.nikonorov.videolenta;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +32,7 @@ public class ActivityMain extends AppCompatActivity {
         data = new ArrayList<>();
         try {
             data.add(new Article(new JSONObject("{\"header\":\"header1\", \"footer\":\"footer1\", \"gif\":\""+"android.resource://" + getPackageName() +"/"+R.raw.video1+"\"}")));
-            //data.add(new Article(new JSONObject("{\"header\":\"header2\", \"footer\":\"footer2\", \"gif\":\""+"android.resource://" + getPackageName() +"/"+R.raw.video2+"\"}")));
+            data.add(new Article(new JSONObject("{\"header\":\"header2\", \"footer\":\"footer2\", \"gif\":\""+"android.resource://" + getPackageName() +"/"+R.raw.video2+"\"}")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
