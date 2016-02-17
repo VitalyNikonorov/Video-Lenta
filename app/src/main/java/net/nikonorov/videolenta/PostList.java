@@ -13,4 +13,8 @@ import java.util.List;
 public class PostList {
     @ElementList(required=true, inline=true)
     private List<Article> articleList = new ArrayList<>();
+
+    public List<Article> getArticleList() {
+        return articleList;
+    }
 }

@@ -1,6 +1,7 @@
 package net.nikonorov.videolenta;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
     public void onBindViewHolder(CardViewHolder holder, int position) {
         holder.tvHeader.setText(data.get(position).getHeader());
         holder.tvFooter.setText(data.get(position).getFooter());
-        holder.vvVideo.setVideoURI(data.get(position).getVideoUri());
+        holder.vvVideo.setVideoURI(Uri.parse(data.get(position).getGif().getUrl()));
         holder.vvVideo.setMediaController(new MediaController(context));
         holder.vvVideo.requestFocus(0);
         holder.vvVideo.start();

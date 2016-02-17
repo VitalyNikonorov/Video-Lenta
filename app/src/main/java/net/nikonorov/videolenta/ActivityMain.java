@@ -16,7 +16,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
@@ -48,12 +47,10 @@ public class ActivityMain extends AppCompatActivity {
         call.enqueue(new Callback<PostList>() {
             @Override
             public void onResponse(retrofit2.Call<PostList> call, Response<PostList> response) {
-                //data = new ArrayList<>(response.body());
+                data = new ArrayList<Article>(response.body().getArticleList());
 
-                Log.i("TAG", response.body().toString());
-                Log.i("TAG", response.body().toString());
-                //adapter = new RVAdapter(data, ActivityMain.this);
-                //recyclerView.setAdapter(adapter);
+                adapter = new RVAdapter(data, ActivityMain.this);
+                recyclerView.setAdapter(adapter);
             }
 
             @Override

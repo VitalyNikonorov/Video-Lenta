@@ -9,5 +9,9 @@ import org.simpleframework.xml.Root;
 @Root(name = "gif")
 public class Gif{
     @Attribute(name = "url")
-    String url;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
 }
