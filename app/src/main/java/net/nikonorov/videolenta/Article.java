@@ -4,14 +4,30 @@ import android.net.Uri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 /**
  * Created by vitaly on 16.02.16.
  */
+
+
+@Root(name = "item")
 public class Article {
+
+    @Element(name = "header")
     private String header;
+
+    @Element(name = "footer")
     private String footer;
+
+//    @Element(name = "gif")
+//    private String url;
+
     private Uri videoUri;
+
+    public Article() {
+    }
 
     public Article(JSONObject data) throws JSONException {
         header = data.getString("header");
