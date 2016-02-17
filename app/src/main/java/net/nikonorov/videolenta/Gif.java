@@ -7,7 +7,7 @@ import org.simpleframework.xml.Root;
  * Created by vitaly on 17.02.16.
  */
 @Root(name = "gif")
-class Gif{
+public class Gif{
     @Attribute(name = "url")
     String url;
 }

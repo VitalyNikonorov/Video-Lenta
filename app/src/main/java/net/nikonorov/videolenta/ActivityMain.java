@@ -43,11 +43,11 @@ public class ActivityMain extends AppCompatActivity {
 
         LentaService myAPI = retrofit.create(LentaService.class);
 
-        Call<Article> call = myAPI.getPosts();
+        Call<PostList> call = myAPI.getPosts();
 
-        call.enqueue(new Callback<Article>() {
+        call.enqueue(new Callback<PostList>() {
             @Override
-            public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
+            public void onResponse(retrofit2.Call<PostList> call, Response<PostList> response) {
                 //data = new ArrayList<>(response.body());
 
                 Log.i("TAG", response.body().toString());
@@ -57,7 +57,7 @@ public class ActivityMain extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<Article> call, Throwable t) {
+            public void onFailure(retrofit2.Call<PostList> call, Throwable t) {
 
             }
         });
