@@ -2,7 +2,7 @@ package net.nikonorov.videolenta.logic;
 
 import net.nikonorov.videolenta.Article;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -12,7 +12,6 @@ import retrofit2.http.GET;
  */
 public interface LentaService {
 
-
-    @GET("/lenta.xml")
-    public Call<ArrayList<Article>> getPosts();
+    @GET("/one.xml")
+    public Call<Article> getPosts();
 }

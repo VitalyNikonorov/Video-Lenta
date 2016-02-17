@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -21,8 +22,8 @@ public class Article {
     @Element(name = "footer")
     private String footer;
 
-//    @Element(name = "gif")
-//    private String url;
+    @Element(name = "gif")
+    private Gif gif;
 
     private Uri videoUri;
 
@@ -46,4 +47,5 @@ public class Article {
     public Uri getVideoUri() {
         return videoUri;
     }
+
 }
