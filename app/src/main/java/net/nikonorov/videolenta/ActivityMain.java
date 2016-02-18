@@ -3,7 +3,6 @@ package net.nikonorov.videolenta;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
