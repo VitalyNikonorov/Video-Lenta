@@ -23,7 +23,7 @@ public class RowLoader extends Loader<PostList> {
         super(context);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://nikonorov.net")
+                .baseUrl("http://91.215.138.197")
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
     }
@@ -56,6 +56,8 @@ public class RowLoader extends Loader<PostList> {
             public void onResponse(retrofit2.Call<PostList> call, Response<PostList> response) {
                 if(response.isSuccess()) {
                     deliverResult(response.body());
+                }else{
+                    deliverResult(null);
                 }
             }
 

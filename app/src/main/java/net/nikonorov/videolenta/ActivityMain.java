@@ -1,6 +1,8 @@
 package net.nikonorov.videolenta;
 
+import android.app.Dialog;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +29,8 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
     private RVAdapter adapter;
     private ArrayList<Post> data;
 
+    ProgressDialog progress;
+
     private final static int LOADER_ID = 1;
 
     private final static int X = 0;
@@ -48,6 +52,10 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
         adapter = new RVAdapter(data, ActivityMain.this);
         recyclerView.setAdapter(adapter);
+
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Loading row...");
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -85,6 +93,8 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
                         //Log.i("LOG", "All visible: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
                     }
                     //Log.i("LOG", "\n-----\n");
+                }else if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING){
+                    Log.i("LOG", "Settling");
                 }
                 return false;
             }
@@ -97,6 +107,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
     public Loader<PostList> onCreateLoader(int id, Bundle args) {
         switch (id) {
             case LOADER_ID:
+                progress.show();
                 return new RowLoader(ActivityMain.this);
             default:
                 return null;
@@ -105,14 +116,20 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<PostList> loader, PostList list) {
-        data.clear();
-        data.addAll(list.getPostList());
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
-            }
-        });
+        progress.dismiss();
+        if(list != null) {
+            data.clear();
+            data.addAll(list.getPostList());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }else {
+            Dialog dialog = new Dialog(ActivityMain.this);
+            dialog.setTitle("Error");
+        }
 
         getLoaderManager().destroyLoader(LOADER_ID);
 
@@ -120,6 +137,6 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<PostList> loader) {
-
+        progress.dismiss();
     }
 }
