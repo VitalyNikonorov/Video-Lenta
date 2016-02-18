@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,12 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
     private final static int LOADER_ID = 1;
 
+    private final static int X = 0;
+    private final static int Y = 1;
+
+    private final static int TOP = 0;
+    private final static int BOTTOM = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +49,39 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         adapter = new RVAdapter(data, ActivityMain.this);
         recyclerView.setAdapter(adapter);
 
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        final int screenHeight = displaymetrics.heightPixels;
+
+        final int rvCoordinates[] = new int[2];
+
+        View rvFrame = findViewById(R.id.main_background);
+        rvFrame.getLocationInWindow(rvCoordinates);
+
+        int visibilityBorders[] = new int[2];
+
+        visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
+        visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
+
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING){
+                if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
                     int firstVisiblePosition = llm.findFirstVisibleItemPosition();
                     int lastVisiblePosition = llm.findLastVisibleItemPosition();
 
-                    for(int i = firstVisiblePosition; i<=lastVisiblePosition; i++){
-                        View child = recyclerView.getChildAt(i);
+                    for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                        RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+
                         int coordinates[] = new int[2];
-                        child.getLocationInWindow(coordinates);
-                        Log.i("LOG", "I-"+i+" X: "+coordinates[0] +" Y: "+coordinates[1]);
+                        holder.vvVideo.getLocationOnScreen(coordinates);
+                        if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
+                            Log.i("LOG", "Visible more then half: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
+                        }
+                        Log.i("LOG", "All visible: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
                     }
+                    Log.i("LOG", "\n-----\n");
                 }
                 return false;
             }

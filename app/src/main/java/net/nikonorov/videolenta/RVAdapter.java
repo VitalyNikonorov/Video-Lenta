@@ -43,6 +43,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         holder.vvVideo.setMediaController(null);
         holder.vvVideo.requestFocus(0);
         holder.vvVideo.start();
+        holder.vvVideo.pause();
 
         holder.vvVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
