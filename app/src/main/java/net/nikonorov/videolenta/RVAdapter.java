@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -41,7 +40,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         holder.tvHeader.setText(data.get(position).getHeader());
         holder.tvFooter.setText(data.get(position).getFooter());
         holder.vvVideo.setVideoURI(Uri.parse(data.get(position).getGif().getUrl()));
-        holder.vvVideo.setMediaController(new MediaController(context));
+        holder.vvVideo.setMediaController(null);
         holder.vvVideo.requestFocus(0);
         holder.vvVideo.start();
 
@@ -72,7 +71,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
             tvHeader = (TextView) itemView.findViewById(R.id.tv_header);
             tvFooter = (TextView) itemView.findViewById(R.id.tv_footer);
             vvVideo = (VideoView) itemView.findViewById(R.id.vv_animated_image);
-            vvVideo.setMediaController(null);
         }
 
     }
