@@ -12,7 +12,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import net.nikonorov.videolenta.api.Post;
 import net.nikonorov.videolenta.api.PostList;
@@ -68,24 +70,42 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
         final int rvCoordinates[] = new int[2];
 
-        View rvFrame = findViewById(R.id.main_background);
+        final View rvFrame = findViewById(R.id.main_background);
         rvFrame.getLocationInWindow(rvCoordinates);
 
-//        int visibilityBorders[] = new int[2];
-
-//        visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
-//        visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    changeVideoState();
+
+//                    int visibilityBorders[] = new int[2];
+
+//                    visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
+//                    visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
+
+                    int firstVisiblePosition = llm.findFirstVisibleItemPosition();
+                    int lastVisiblePosition = llm.findLastVisibleItemPosition();
+
+                    for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                        RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+
+                        int coordinates[] = new int[2];
+                        holder.vvVideo.getLocationOnScreen(coordinates);
+
+                        if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
+                            holder.vvVideo.start();
+                        } else {
+                            holder.vvVideo.pause();
+                        }
+                    }
+
                     //Log.i("LOG", "\n-----\n");
                 }
                 return false;
             }
         });
+
 
         getLoaderManager().initLoader(1, Bundle.EMPTY, ActivityMain.this);
     }
@@ -145,24 +165,6 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
         getLoaderManager().destroyLoader(LOADER_ID);
 
-    }
-
-    private void changeVideoState() {
-        int firstVisiblePosition = llm.findFirstVisibleItemPosition();
-        int lastVisiblePosition = llm.findLastVisibleItemPosition();
-
-        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-            RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-
-            int coordinates[] = new int[2];
-            holder.vvVideo.getLocationOnScreen(coordinates);
-
-            if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
-                holder.vvVideo.start();
-            } else {
-                holder.vvVideo.pause();
-            }
-        }
     }
 
     @Override
