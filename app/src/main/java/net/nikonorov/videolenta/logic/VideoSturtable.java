@@ -5,4 +5,6 @@ package net.nikonorov.videolenta.logic;
  */
 public interface VideoSturtable {
     public void onVideoStart();
+
+    public void onPause();
 }

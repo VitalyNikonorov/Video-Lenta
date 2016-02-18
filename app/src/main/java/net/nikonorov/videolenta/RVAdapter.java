@@ -64,15 +64,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         CardView cv;
         TextView tvHeader;
         TextView tvFooter;
-        VideoView vvVideo;
+        AutoStartableVideoView vvVideo;
 
         public CardViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cv_listitem);
             tvHeader = (TextView) itemView.findViewById(R.id.tv_header);
             tvFooter = (TextView) itemView.findViewById(R.id.tv_footer);
-            vvVideo = (VideoView) itemView.findViewById(R.id.vv_animated_image);
-
+            vvVideo = (AutoStartableVideoView) itemView.findViewById(R.id.vv_animated_image);
         }
 
     }

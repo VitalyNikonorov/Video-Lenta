@@ -59,10 +59,10 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         View rvFrame = findViewById(R.id.main_background);
         rvFrame.getLocationInWindow(rvCoordinates);
 
-        int visibilityBorders[] = new int[2];
+//        int visibilityBorders[] = new int[2];
 
-        visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
-        visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
+//        visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
+//        visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -76,12 +76,15 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
                         int coordinates[] = new int[2];
                         holder.vvVideo.getLocationOnScreen(coordinates);
+
                         if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
-                            Log.i("LOG", "Visible more then half: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
+                            holder.vvVideo.start();
+                        }else {
+                            holder.vvVideo.pause();
                         }
-                        Log.i("LOG", "All visible: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
+                        //Log.i("LOG", "All visible: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
                     }
-                    Log.i("LOG", "\n-----\n");
+                    //Log.i("LOG", "\n-----\n");
                 }
                 return false;
             }
