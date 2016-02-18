@@ -1,4 +1,4 @@
-package net.nikonorov.videolenta;
+package net.nikonorov.videolenta.api;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -9,7 +9,7 @@ import org.simpleframework.xml.Root;
 
 
 @Root(name = "item")
-public class Article {
+public class Post {
 
     @Element(name = "header")
     private String header;
@@ -20,7 +20,7 @@ public class Article {
     @Element(name = "gif")
     private Gif gif;
 
-    public Article() {
+    public Post() {
     }
 
     public String getFooter() {

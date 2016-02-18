@@ -3,7 +3,7 @@ package net.nikonorov.videolenta.logic;
 import android.content.Context;
 import android.content.Loader;
 
-import net.nikonorov.videolenta.PostList;
+import net.nikonorov.videolenta.api.PostList;
 
 import retrofit2.Call;
 import retrofit2.Callback;

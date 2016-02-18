@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import net.nikonorov.videolenta.api.Post;
+import net.nikonorov.videolenta.api.PostList;
 import net.nikonorov.videolenta.logic.RowLoader;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
     private RecyclerView recyclerView;
     private RVAdapter adapter;
-    private ArrayList<Article> data;
+    private ArrayList<Post> data;
 
     private final static int LOADER_ID = 1;
 
@@ -31,7 +33,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         recyclerView = (RecyclerView) findViewById(R.id.rv_lenta);
         recyclerView.setLayoutManager(new LinearLayoutManager(ActivityMain.this));
 
-        data = new ArrayList<Article>(new ArrayList<Article>());
+        data = new ArrayList<Post>(new ArrayList<Post>());
 
         adapter = new RVAdapter(data, ActivityMain.this);
         recyclerView.setAdapter(adapter);
@@ -51,7 +53,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<PostList> loader, PostList list) {
         data.clear();
-        data.addAll(list.getArticleList());
+        data.addAll(list.getPostList());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

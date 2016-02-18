@@ -1,6 +1,7 @@
 package net.nikonorov.videolenta;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import net.nikonorov.videolenta.api.Post;
+
 import java.util.ArrayList;
 
 /**
@@ -18,10 +21,10 @@ import java.util.ArrayList;
  */
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
 
-    private ArrayList<Article> data = null;
+    private ArrayList<Post> data = null;
     private Context context;
 
-    public RVAdapter(ArrayList<Article> data, Context context){
+    public RVAdapter(ArrayList<Post> data, Context context){
         this.data = data;
         this.context = context;
     }
@@ -41,6 +44,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         holder.vvVideo.setMediaController(new MediaController(context));
         holder.vvVideo.requestFocus(0);
         holder.vvVideo.start();
+
+        holder.vvVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+                mp.setVolume(0, 0);
+            }
+        });
     }
 
     @Override
@@ -61,7 +72,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
             tvHeader = (TextView) itemView.findViewById(R.id.tv_header);
             tvFooter = (TextView) itemView.findViewById(R.id.tv_footer);
             vvVideo = (VideoView) itemView.findViewById(R.id.vv_animated_image);
+            vvVideo.setMediaController(null);
         }
+
     }
 
 }

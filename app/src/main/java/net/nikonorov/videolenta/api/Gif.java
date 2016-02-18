@@ -1,4 +1,4 @@
-package net.nikonorov.videolenta;
+package net.nikonorov.videolenta.api;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;

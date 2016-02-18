@@ -1,6 +1,6 @@
 package net.nikonorov.videolenta.logic;
 
-import net.nikonorov.videolenta.PostList;
+import net.nikonorov.videolenta.api.PostList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
