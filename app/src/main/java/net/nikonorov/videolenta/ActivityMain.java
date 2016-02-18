@@ -29,6 +29,9 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
     private RecyclerView recyclerView;
     private RVAdapter adapter;
     private ArrayList<Post> data;
+    private LinearLayoutManager llm;
+
+    private int screenHeight;
 
     ProgressDialog progress;
 
@@ -46,7 +49,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_lenta);
-        final LinearLayoutManager llm = new LinearLayoutManager(ActivityMain.this);
+        llm = new LinearLayoutManager(ActivityMain.this);
         recyclerView.setLayoutManager(llm);
 
         data = new ArrayList<Post>(new ArrayList<Post>());
@@ -61,7 +64,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-        final int screenHeight = displaymetrics.heightPixels;
+        screenHeight = displaymetrics.heightPixels;
 
         final int rvCoordinates[] = new int[2];
 
@@ -77,25 +80,8 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    int firstVisiblePosition = llm.findFirstVisibleItemPosition();
-                    int lastVisiblePosition = llm.findLastVisibleItemPosition();
-
-                    for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                        RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-
-                        int coordinates[] = new int[2];
-                        holder.vvVideo.getLocationOnScreen(coordinates);
-
-                        if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
-                            holder.vvVideo.start();
-                        }else {
-                            holder.vvVideo.pause();
-                        }
-                        //Log.i("LOG", "All visible: I-" + i + " X: " + coordinates[X] + " Y: " + coordinates[Y]);
-                    }
+                    changeVideoState();
                     //Log.i("LOG", "\n-----\n");
-                }else if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING){
-                    Log.i("LOG", "Settling");
                 }
                 return false;
             }
@@ -127,6 +113,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
                     adapter.notifyDataSetChanged();
                 }
             });
+
         }else {
 
             final Dialog dialog = new Dialog(ActivityMain.this);
@@ -158,6 +145,24 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
         getLoaderManager().destroyLoader(LOADER_ID);
 
+    }
+
+    private void changeVideoState() {
+        int firstVisiblePosition = llm.findFirstVisibleItemPosition();
+        int lastVisiblePosition = llm.findLastVisibleItemPosition();
+
+        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+            RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+
+            int coordinates[] = new int[2];
+            holder.vvVideo.getLocationOnScreen(coordinates);
+
+            if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
+                holder.vvVideo.start();
+            } else {
+                holder.vvVideo.pause();
+            }
+        }
     }
 
     @Override
