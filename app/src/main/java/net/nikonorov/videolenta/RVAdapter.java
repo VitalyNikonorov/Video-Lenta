@@ -71,6 +71,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
             tvHeader = (TextView) itemView.findViewById(R.id.tv_header);
             tvFooter = (TextView) itemView.findViewById(R.id.tv_footer);
             vvVideo = (VideoView) itemView.findViewById(R.id.vv_animated_image);
+
         }
 
     }

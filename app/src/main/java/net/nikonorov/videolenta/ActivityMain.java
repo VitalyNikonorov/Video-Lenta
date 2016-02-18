@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import net.nikonorov.videolenta.api.Post;
 import net.nikonorov.videolenta.api.PostList;
@@ -31,12 +34,32 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_lenta);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ActivityMain.this));
+        final LinearLayoutManager llm = new LinearLayoutManager(ActivityMain.this);
+        recyclerView.setLayoutManager(llm);
 
         data = new ArrayList<Post>(new ArrayList<Post>());
 
         adapter = new RVAdapter(data, ActivityMain.this);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING){
+                    int firstVisiblePosition = llm.findFirstVisibleItemPosition();
+                    int lastVisiblePosition = llm.findLastVisibleItemPosition();
+
+                    for(int i = firstVisiblePosition; i<=lastVisiblePosition; i++){
+                        View child = recyclerView.getChildAt(i);
+                        int coordinates[] = new int[2];
+                        child.getLocationInWindow(coordinates);
+                        Log.i("LOG", "I-"+i+" X: "+coordinates[0] +" Y: "+coordinates[1]);
+                    }
+                }
+                return false;
+            }
+        });
+
         getLoaderManager().initLoader(1, Bundle.EMPTY, ActivityMain.this);
     }
 
