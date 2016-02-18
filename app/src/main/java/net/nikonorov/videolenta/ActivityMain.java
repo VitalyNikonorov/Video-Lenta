@@ -3,6 +3,7 @@ package net.nikonorov.videolenta;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import net.nikonorov.videolenta.api.Post;
 import net.nikonorov.videolenta.api.PostList;
@@ -127,8 +129,32 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
                 }
             });
         }else {
-            Dialog dialog = new Dialog(ActivityMain.this);
+
+            final Dialog dialog = new Dialog(ActivityMain.this);
+
+            dialog.setContentView(R.layout.dialog);
             dialog.setTitle("Error");
+
+            Button btnDismiss = (Button) dialog.findViewById(R.id.reconnect_close);
+            btnDismiss.setOnClickListener(new Button.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            Button reconnect = (Button) dialog.findViewById(R.id.reconnect_reconnect);
+            reconnect.setOnClickListener(new Button.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    getLoaderManager().initLoader(1, Bundle.EMPTY, ActivityMain.this);
+                }
+            });
+
+            dialog.show();
         }
 
         getLoaderManager().destroyLoader(LOADER_ID);

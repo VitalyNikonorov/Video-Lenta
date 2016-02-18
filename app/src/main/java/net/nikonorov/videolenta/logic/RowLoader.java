@@ -64,6 +64,7 @@ public class RowLoader extends Loader<PostList> {
             @Override
             public void onFailure(retrofit2.Call<PostList> call, Throwable t) {
                 try {
+                    deliverResult(null);
                     throw t;
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
