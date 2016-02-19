@@ -85,15 +85,18 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         }
 
         final int finalActionBarHeight = actionBarHeight;
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+        
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
                 if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
 
                     int visibilityBorders[] = new int[2];
 
                     visibilityBorders[TOP] = height + finalActionBarHeight;
-//                    visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
+                    visibilityBorders[BOTTOM] = screenHeight;
 
 
 
@@ -108,7 +111,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
                         coordinates[Y] += holder.vvVideo.getHeight() / 2;
 
-                        if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < screenHeight) {
+                        if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM]) {
                             holder.vvVideo.start();
                         } else {
                             holder.vvVideo.pause();
@@ -117,7 +120,6 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
                     //Log.i("LOG", "\n-----\n");
                 }
-                return false;
             }
         });
 
