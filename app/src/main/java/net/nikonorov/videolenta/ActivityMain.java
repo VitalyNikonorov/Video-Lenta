@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by vitaly on 16.02.16.
  */
-public class ActivityMain extends AppCompatActivity implements LoaderManager.LoaderCallbacks<PostList>, View.OnClickListener {
+public class ActivityMain extends AppCompatActivity implements LoaderManager.LoaderCallbacks<PostList> {
 
     private RecyclerView recyclerView;
     private RVAdapter adapter;
@@ -85,44 +85,40 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         }
 
         final int finalActionBarHeight = actionBarHeight;
-        
+
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
 
-                    int visibilityBorders[] = new int[2];
+                int visibilityBorders[] = new int[2];
 
-                    visibilityBorders[TOP] = height + finalActionBarHeight;
-                    visibilityBorders[BOTTOM] = screenHeight;
-
+                visibilityBorders[TOP] = height + finalActionBarHeight;
+                visibilityBorders[BOTTOM] = screenHeight;
 
 
-                    int firstVisiblePosition = llm.findFirstVisibleItemPosition();
-                    int lastVisiblePosition = llm.findLastVisibleItemPosition();
 
-                    for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                        RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                int firstVisiblePosition = llm.findFirstVisibleItemPosition();
+                int lastVisiblePosition = llm.findLastVisibleItemPosition();
 
-                        int coordinates[] = new int[2];
-                        holder.vvVideo.getLocationOnScreen(coordinates);
+                for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                    RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
 
-                        coordinates[Y] += holder.vvVideo.getHeight() / 2;
+                    int coordinates[] = new int[2];
+                    holder.vvVideo.getLocationOnScreen(coordinates);
 
-                        if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM]) {
-                            holder.vvVideo.start();
-                        } else {
-                            holder.vvVideo.pause();
-                        }
+                    coordinates[Y] += holder.vvVideo.getHeight() / 2;
+
+                    if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM]) {
+                        holder.vvVideo.start();
+                    } else {
+                        holder.vvVideo.pause();
                     }
-
-                    //Log.i("LOG", "\n-----\n");
                 }
+
             }
         });
-
 
         getLoaderManager().initLoader(1, Bundle.EMPTY, ActivityMain.this);
     }
@@ -198,10 +194,4 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         progress.dismiss();
     }
 
-    @Override
-    public void onClick(View v) {
-        int[] coord = new int[2];
-        v.getLocationOnScreen(coord);
-        Log.i("Clock LOG", "X: " +coord[0] +" Y"+coord[1]);
-    }
 }
