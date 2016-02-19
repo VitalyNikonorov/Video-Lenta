@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -73,6 +74,15 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         final View rvFrame = findViewById(R.id.main_background);
         rvFrame.getLocationInWindow(rvCoordinates);
 
+        int height = getStatusBarHeight();
+
+        int actionBarHeight = 0;
+
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -83,6 +93,8 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
 //                    visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
 //                    visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
+
+
 
                     int firstVisiblePosition = llm.findFirstVisibleItemPosition();
                     int lastVisiblePosition = llm.findLastVisibleItemPosition();
@@ -108,6 +120,15 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
 
         getLoaderManager().initLoader(1, Bundle.EMPTY, ActivityMain.this);
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
