@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by vitaly on 16.02.16.
  */
-public class ActivityMain extends AppCompatActivity implements LoaderManager.LoaderCallbacks<PostList> {
+public class ActivityMain extends AppCompatActivity implements LoaderManager.LoaderCallbacks<PostList>, View.OnClickListener {
 
     private RecyclerView recyclerView;
     private RVAdapter adapter;
@@ -74,24 +74,25 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         final View rvFrame = findViewById(R.id.main_background);
         rvFrame.getLocationInWindow(rvCoordinates);
 
-        int height = getStatusBarHeight();
+        final int height = getStatusBarHeight();
 
         int actionBarHeight = 0;
 
         TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
+
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
         }
 
+        final int finalActionBarHeight = actionBarHeight;
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
 
-//                    int visibilityBorders[] = new int[2];
+                    int visibilityBorders[] = new int[2];
 
-//                    visibilityBorders[TOP] = rvCoordinates[Y] - rvFrame.getHeight()/2;
+                    visibilityBorders[TOP] = height + finalActionBarHeight;
 //                    visibilityBorders[BOTTOM] = rvCoordinates[Y] + rvFrame.getHeight()/2;
 
 
@@ -105,7 +106,9 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
                         int coordinates[] = new int[2];
                         holder.vvVideo.getLocationOnScreen(coordinates);
 
-                        if (coordinates[Y] > 0 && coordinates[Y] < screenHeight) {
+                        coordinates[Y] += holder.vvVideo.getHeight() / 2;
+
+                        if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < screenHeight) {
                             holder.vvVideo.start();
                         } else {
                             holder.vvVideo.pause();
@@ -191,5 +194,12 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<PostList> loader) {
         progress.dismiss();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int[] coord = new int[2];
+        v.getLocationOnScreen(coord);
+        Log.i("Clock LOG", "X: " +coord[0] +" Y"+coord[1]);
     }
 }

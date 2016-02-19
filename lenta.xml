@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+	<item>
+		<header>Header1</header> 
+		<gif url="http://nikonorov.net/video/video1.mp4"/>
+		<footer>Footer1</footer>
+	</item>
+
+	<item>
+		<header>Header2</header>
+		<gif url="http://nikonorov.net/video/video2.mp4"/>
+		<footer>Footer2</footer>
+	</item>
+
+	<item>
+		<header>Panda</header>
+		<gif url="http://nikonorov.net/video/panda.mp4"/>
+		<footer>FooterPanda</footer>
+	</item>
+
+	<item>
+		<header>Zverpolis</header>
+		<gif url="http://nikonorov.net/video/zverpolis.mp4"/>
+		<footer>FooterZverpolis</footer>
+	</item>
+
+	<item>
+		<header>Angry Birds</header>
+		<gif url="http://nikonorov.net/video/angry.mp4"/>
+		<footer>Footer</footer>
+	</item>
+
+	<item>
+		<header>Batman vs superman</header>
+		<gif url="http://nikonorov.net/video/batman.mp4"/>
+		<footer>Footer</footer>
+	</item>
+
+	<item>
+		<header>Defenders</header>
+		<gif url="http://nikonorov.net/video/defenders.mp4"/>
+		<footer>Footer</footer>
+	</item>
+
+	<item>
+		<header>X-Man</header>
+		<gif url="http://nikonorov.net/video/xman.mp4"/>
+		<footer>Footer</footer>
+	</item>
+</items>
