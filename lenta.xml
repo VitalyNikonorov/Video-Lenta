@@ -1,4 +1,4 @@
-<?xml version="0.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <items>
 	<item>
 		<header>Header1</header> 
@@ -47,4 +47,59 @@
 		<gif url="http://nikonorov.net/video/xman.mp4"/>
 		<footer>Footer</footer>
 	</item>
+
+	<item>
+		<header>The Avengers</header> 
+		<gif url="http://nikonorov.net/video/cap.mp4"/>
+		<footer>Footer1</footer>
+	</item>
+
+	<item>
+		<header>The Gods of Egypt</header>
+		<gif url="http://nikonorov.net/video/egypt.mp4"/>
+		<footer>Footer2</footer>
+	</item>
+
+	<item>
+		<header>The God's doughter</header>
+		<gif url="http://nikonorov.net/video/explose.mp4"/>
+		<footer>Footer3</footer>
+	</item>
+
+	<item>
+		<header>Jungles</header>
+		<gif url="http://nikonorov.net/video/jungle.mp4"/>
+		<footer>Footer4</footer>
+	</item>
+
+	<item>
+		<header>Manila</header>
+		<gif url="http://nikonorov.net/video/manila.mp4"/>
+		<footer>Footer5</footer>
+	</item>
+
+	<item>
+		<header>Norm from north</header>
+		<gif url="http://nikonorov.net/video/norm.mp4"/>
+		<footer>Footer6</footer>
+	</item>
+
+	<item>
+		<header>Prince</header>
+		<gif url="http://nikonorov.net/video/prince.mp4"/>
+		<footer>Footer7</footer>
+	</item>
+
+	<item>
+		<header>WoW</header>
+		<gif url="http://nikonorov.net/video/wow.mp4"/>
+		<footer>Footer8</footer>
+	</item>
+
+	<item>
+		<header>X-Man</header>
+		<gif url="http://nikonorov.net/video/xman.mp4"/>
+		<footer>Footer9</footer>
+	</item>
+	
 </items>
