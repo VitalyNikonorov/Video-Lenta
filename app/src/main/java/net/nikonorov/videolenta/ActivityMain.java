@@ -98,22 +98,9 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
 
                 if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                    turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition);
+                    turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition, RecyclerView.SCROLL_STATE_DRAGGING);
                 } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                    for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                        RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-
-                        int coordinates[] = new int[2];
-                        holder.vvVideo.getLocationOnScreen(coordinates);
-
-                        coordinates[Y] += holder.vvVideo.getHeight() / 2;
-
-                        if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM] && recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_SETTLING) {  // && recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING
-                            holder.vvVideo.start();
-                        } else {
-                            holder.vvVideo.pause();
-                        }
-                    }
+                    turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition, RecyclerView.SCROLL_STATE_SETTLING);
                 }
 
                 return false;
@@ -126,15 +113,22 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
+
+                int firstVisiblePosition = llm.findFirstVisibleItemPosition();
+                int lastVisiblePosition = llm.findLastVisibleItemPosition();
+
+                int visibilityBorders[] = new int[2];
+
+                visibilityBorders[TOP] = height + finalActionBarHeight;
+                visibilityBorders[BOTTOM] = screenHeight;
+
                 if(newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING){
-
-                    int firstVisiblePosition = llm.findFirstVisibleItemPosition();
-                    int lastVisiblePosition = llm.findLastVisibleItemPosition();
-
                     for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
                         RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
                         holder.vvVideo.pause();
                     }
+                }else {
+                    turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition, RecyclerView.SCROLL_STATE_SETTLING);
                 }
             }
 
@@ -152,7 +146,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
                 int firstVisiblePosition = llm.findFirstVisibleItemPosition();
                 int lastVisiblePosition = llm.findLastVisibleItemPosition();
 
-                turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition);
+                turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition, RecyclerView.SCROLL_STATE_DRAGGING);
 
             }
         });
@@ -160,7 +154,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
         getLoaderManager().initLoader(1, Bundle.EMPTY, ActivityMain.this);
     }
 
-    private void turnVisibleItems(RecyclerView recyclerView, int[] visibilityBorders, int firstVisiblePosition, int lastVisiblePosition) {
+    private void turnVisibleItems(RecyclerView recyclerView, int[] visibilityBorders, int firstVisiblePosition, int lastVisiblePosition, int scrollState) {
         for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
             RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
 
@@ -169,7 +163,7 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
 
             coordinates[Y] += holder.vvVideo.getHeight() / 2;
 
-            if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM] && recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING) {  // && recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING
+            if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM] && recyclerView.getScrollState() != scrollState) {  // && recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING
                 holder.vvVideo.start();
             } else {
                 holder.vvVideo.pause();
