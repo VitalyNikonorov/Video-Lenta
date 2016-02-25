@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -39,18 +40,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
     public void onBindViewHolder(CardViewHolder holder, int position) {
         holder.tvHeader.setText(data.get(position).getHeader());
         holder.tvFooter.setText(data.get(position).getFooter());
-        holder.vvVideo.setVideoURI(Uri.parse(data.get(position).getGif().getUrl()));
+        holder.vvVideo.setVideoPath(data.get(position).getGif().getUrl());
         holder.vvVideo.setMediaController(null);
         holder.vvVideo.requestFocus(0);
         holder.vvVideo.start();
-
-        holder.vvVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-                mp.setVolume(0, 0);
-            }
-        });
     }
 
     @Override
@@ -64,6 +57,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         TextView tvHeader;
         TextView tvFooter;
         AutoStartableVideoView vvVideo;
+        ProgressBar spinnerView;
 
         public CardViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +65,34 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
             tvHeader = (TextView) itemView.findViewById(R.id.tv_header);
             tvFooter = (TextView) itemView.findViewById(R.id.tv_footer);
             vvVideo = (AutoStartableVideoView) itemView.findViewById(R.id.vv_animated_image);
+            spinnerView = (ProgressBar) itemView.findViewById(R.id.my_spinner);
+
+            vvVideo.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                @Override
+                public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                    if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
+                        spinnerView.setVisibility(View.GONE);
+                    }
+                    if (MediaPlayer.MEDIA_INFO_BUFFERING_START == what) {
+                        spinnerView.setVisibility(View.VISIBLE);
+                    }
+                    if (MediaPlayer.MEDIA_INFO_BUFFERING_END == what) {
+                        spinnerView.setVisibility(View.VISIBLE);
+                    }
+                    return false;
+                }
+            });
+
+
+
+            vvVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                    mp.setVolume(0, 0);
+                }
+            });
+
         }
 
     }
