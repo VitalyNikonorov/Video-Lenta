@@ -146,7 +146,20 @@ public class ActivityMain extends AppCompatActivity implements LoaderManager.Loa
                 int firstVisiblePosition = llm.findFirstVisibleItemPosition();
                 int lastVisiblePosition = llm.findLastVisibleItemPosition();
 
-                turnVisibleItems(recyclerView, visibilityBorders, firstVisiblePosition, lastVisiblePosition, RecyclerView.SCROLL_STATE_DRAGGING);
+                for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                    RVAdapter.CardViewHolder holder = (RVAdapter.CardViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+
+                    int coordinates[] = new int[2];
+                    holder.vvVideo.getLocationOnScreen(coordinates);
+
+                    coordinates[Y] += holder.vvVideo.getHeight() / 2;
+
+                    if (coordinates[Y] > visibilityBorders[TOP] && coordinates[Y] < visibilityBorders[BOTTOM] && recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {  // && recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING
+                        holder.vvVideo.start();
+                    } else {
+                        holder.vvVideo.pause();
+                    }
+                }
 
             }
         });
