@@ -77,7 +77,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
                         spinnerView.setVisibility(View.VISIBLE);
                     }
                     if (MediaPlayer.MEDIA_INFO_BUFFERING_END == what) {
-                        spinnerView.setVisibility(View.VISIBLE);
+                        spinnerView.setVisibility(View.GONE);
                     }
                     return false;
                 }
